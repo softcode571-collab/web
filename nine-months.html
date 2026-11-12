@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>For You, Grace 💙</title>
+<style>
+:root{--bg:#f4efe6;--ink:#1b2a4a;--card:#fffaf0;--accent:#2b4a8b;--soft:#7d8bb0;--line:#c9d1e6;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1730;--ink:#f1ead8;--card:#18244a;--accent:#8fb0ff;--soft:#8c9bc7;--line:#2c3a6b}}
+:root[data-theme="dark"]{--bg:#0f1730;--ink:#f1ead8;--card:#18244a;--accent:#8fb0ff;--soft:#8c9bc7;--line:#2c3a6b}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Georgia,'Times New Roman',serif;min-height:100vh;
+background-image:radial-gradient(circle at 1px 1px,var(--line) 1.5px,transparent 0);background-size:26px 26px}
+main{max-width:520px;margin:0 auto;padding:36px 20px 60px}
+h1{font-size:2rem;text-align:center;margin:0 0 6px;font-weight:600}
+.sub{text-align:center;color:var(--soft);margin:0 0 30px;font-style:italic}
+.card{background:var(--card);border:1.5px solid var(--line);border-radius:18px;padding:20px;margin-bottom:16px;cursor:pointer;transition:transform .2s}
+.card:active{transform:scale(.98)}
+.card.locked{cursor:default;opacity:.75}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.day{font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:var(--soft)}
+.title{font-size:1.2rem;margin-top:4px}
+.icon{font-size:1.6rem}
+.body{display:none;margin-top:14px;line-height:1.7;font-size:1.05rem;white-space:pre-line;border-top:1px dashed var(--line);padding-top:14px}
+.card.open .body{display:block;animation:fade .6s}
+.hint{font-size:.85rem;color:var(--accent);margin-top:6px}
+.sig{margin-top:12px;font-style:italic;color:var(--accent)}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.foot{text-align:center;color:var(--soft);font-size:.85rem;margin-top:26px}
+</style>
+</head>
+<body>
+<main>
+<h1>Nine Months, My Adorable 💙</h1>
+<p class="sub">Three days. Three little surprises. One big day.</p>
+<div id="cards"></div>
+<p class="foot">Open each one on its day ✨</p>
+</main>
+<script>
+const items=[
+{d:12,tag:'3 days to go',title:'Day One: Something is coming',icon:'🌙',
+text:'Hey Grace 🥰\nYes, My Adorable, this is not a normal text.\nIn three days we will be nine months together, and I wanted to celebrate you properly.\nNine months ago I didn’t know how much one person could change the way my days feel.\nNow I smile at my phone like a fool whenever your name shows up.\nYou are the calm after a long day.\nYou are the laugh I never saw coming.\nYou are the reason I want to do better and be better.\nSo for the next three days, I’m going to remind you how special you are to me.\nTake your time, read slowly, and smile if you want to.\nThis is Day One, and I hope you’re already blushing.\nCome back tomorrow, I’m not done yet 😉',sig:'Yours, Joshua'},
+{d:13,tag:'2 days to go',title:'Day Two: What I love about you',icon:'🌸',
+text:'Good day, Ifeoluwa 🌸\nI hope you’re smiling already.\nToday I want to tell you what I love about you, and the list is long, so bear with me.\nI love how gentle your heart is, and how you care about people even when you’re tired.\nI love your laugh, the kind that makes my whole day better.\nI love how you dream and work towards something, like you’re determined to make it happen.\nI love how patient you are with me, even on the days I’m not at my best.\nI love how being with you feels like home.\nYou don’t have to try to be special. You just are.\nTomorrow is the big day, and I’ve saved the best for last.\nUntil then, keep smiling, My Adorable.\nI’ve got you 💙',sig:'Yours, Joshua'},
+{d:14,tag:'The big day',title:'Day Three: My letter to you',icon:'💌',
+text:'My Adorable, Grace Ifeoluwa Temiloluwa 💌\nHappy 9 months, my love!\nNine months of laughing, learning each other, and choosing each other.\nThank you for your patience, your love, and for simply being you.\nYou came into my life so gently, and now I can’t imagine it without you.\nYou make hard days softer and good days even sweeter.\nI’m grateful for every call, every laugh, every little moment we’ve shared.\nI’m not perfect, but I promise to keep trying, to keep listening, and to keep loving you the best way I know how.\nMay the months ahead bring us more joy, more growth, and more beautiful memories.\nWhatever comes, I want to face it with you.\nI love you, Temiloluwa, today and always.\nHappy nine months, My Adorable 🥰',sig:'Yours always, Joshua'}
+];
+const box=document.getElementById('cards');
+function render(){
+box.innerHTML='';
+const now=new Date();
+items.forEach((it,i)=>{
+const unlock=new Date(2026,10,it.d,0,0,0);
+const open=now>=unlock;
+const c=document.createElement('div');
+c.className='card'+(open?'':' locked');
+let hint='';
+if(!open){const h=Math.ceil((unlock-now)/36e5);hint=h>=24?'Opens in '+Math.ceil(h/24)+' day(s)':'Opens in '+h+' hour(s)';}
+else hint='Tap to open';
+c.innerHTML='<div class="top"><div><div class="day">'+it.tag+'</div><div class="title">'+(open?it.title:'Locked 🔒')+'</div><div class="hint">'+hint+'</div></div><div class="icon">'+(open?it.icon:'🔒')+'</div></div>'+(open?'<div class="body">'+it.text+(it.sig?'<div class="sig">'+it.sig+'</div>':'')+'</div>':'');
+if(open)c.onclick=()=>c.classList.toggle('open');
+box.appendChild(c);
+});
+}
+render();
+setInterval(render,60000);
+</script>
+</body>
+</html>
